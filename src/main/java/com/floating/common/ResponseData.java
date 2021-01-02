@@ -11,17 +11,18 @@ public class ResponseData<T> {
 
 
     /**
-     * 成功状态码
+     * 查询成功
      */
-    public static final int SUCCESS_CODE = 666;
+    public static final int SUCCESS_CODE_SELECT = 0;
+    /**
+     * 更新成功
+     */
+    public static final int SUCCESS_CODE_UPDATE = 1;
     /**
      * 失败状态码
      */
-    public static final int VALIDATION_PARAMETER_FAILED_CODE = 800;
-    /**
-     * 失败状态码
-     */
-    public static final int ERROR_CODE = 888;
+    public static final int ERROR_CODE = -1;
+
     /**
      * 系统异常状态码
      */
@@ -39,11 +40,6 @@ public class ResponseData<T> {
      * 平台用户无权限
      */
     public static final String FROM_USER_NO_ACCESS = "对不起，您没有相应的权限";
-    /**
-     * 名称已存在
-     */
-    public static final String NAME_EXISTDE_MSG = "名称已存在";
-
     /**
      * 成功信息
      */
@@ -90,12 +86,12 @@ public class ResponseData<T> {
 
     }
 
-    public static ResponseData success() {
-        return new ResponseData(SUCCESS_CODE, SUCCESS_MSG);
+    public static ResponseData success(int code) {
+        return new ResponseData(code, SUCCESS_MSG);
     }
 
-    public static ResponseData success(String message) {
-        return new ResponseData(SUCCESS_CODE, message);
+    public static ResponseData success(int code, String message) {
+        return new ResponseData(code, message);
     }
 
     public static ResponseData failed() {

@@ -37,7 +37,7 @@ public class UserController {
     @PostMapping(value = "/save")
     public ResponseData saveUser(@RequestBody @Validated User user) {
         userService.save(user);
-        return ResponseData.success();
+        return ResponseData.success(ResponseData.SUCCESS_CODE_UPDATE);
     }
 
     /**
@@ -52,6 +52,6 @@ public class UserController {
     @GetMapping(value = "/users")
     public ResponseData getUserList(PageDTO pageDTO) {
 
-        return ResponseData.success();
+        return ResponseData.success(ResponseData.SUCCESS_CODE_SELECT);
     }
 }

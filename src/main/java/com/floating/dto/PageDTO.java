@@ -13,7 +13,7 @@ public class PageDTO {
     /**
      * 当前页条数
      */
-    private Integer pageSize = 10;
+    private Integer pageSize = 5;
     /**
      * 当前页
      */

@@ -3,6 +3,7 @@ package com.floating.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.Assert;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.floating.common.ResponseData;
@@ -47,9 +48,12 @@ public class BlogController {
     @GetMapping("/blogs")
     public ResponseData getBlogList(PageDTO pageDTO) {
         Page<Blog> page = new Page<>(pageDTO.getPageNo(), pageDTO.getPageSize());
-        IPage<Blog> resultPage = blogService.page(page);
-        return new ResponseData<>(ResponseData.SUCCESS_CODE, ResponseData.SUCCESS_MSG, resultPage);
+        QueryWrapper<Blog> queryWrapper = new QueryWrapper<>();
+        queryWrapper.orderByDesc(QueryParam.DatabaseColumn.INSERT_TIME);
+        IPage<Blog> resultPage = blogService.page(page, queryWrapper);
+        return new ResponseData<>(ResponseData.SUCCESS_CODE_SELECT, ResponseData.SUCCESS_MSG, resultPage);
     }
+
 
     /**
      * 详情查询
@@ -64,7 +68,7 @@ public class BlogController {
     public ResponseData getBlogDetail(@PathVariable(name = "id") long id) {
         Blog blog = blogService.getById(id);
         Assert.notNull(blog, "该博客已被删除！");
-        return new ResponseData<>(ResponseData.SUCCESS_CODE, ResponseData.SUCCESS_MSG, blog);
+        return new ResponseData<>(ResponseData.SUCCESS_CODE_SELECT, ResponseData.SUCCESS_MSG, blog);
     }
 
     /**
@@ -94,12 +98,12 @@ public class BlogController {
             Assert.notNull(recordBlog, "编辑文章不存在");
             Assert.isTrue(recordBlog.getUserId().equals(userId), "没有权限编辑");
         }
-        BeanUtil.copyProperties(blog, recordBlog, QueryParam.ID,
-                QueryParam.USER_ID,
-                QueryParam.INSERT_TIME,
-                QueryParam.USE_FLAG);
+        BeanUtil.copyProperties(blog, recordBlog, QueryParam.UserProperty.ID,
+                QueryParam.UserProperty.USER_ID,
+                QueryParam.UserProperty.INSERT_TIME,
+                QueryParam.UserProperty.USE_FLAG);
         blogService.save(recordBlog);
-        return ResponseData.success();
+        return ResponseData.success(ResponseData.SUCCESS_CODE_UPDATE);
     }
 
     /**
@@ -116,7 +120,7 @@ public class BlogController {
         Assert.notNull(id, "参数不正确");
         boolean removeStatus = blogService.removeById(id);
         Assert.isFalse(removeStatus, "博客不存在！");
-        return ResponseData.success();
+        return ResponseData.success(ResponseData.SUCCESS_CODE_UPDATE);
     }
 
 
