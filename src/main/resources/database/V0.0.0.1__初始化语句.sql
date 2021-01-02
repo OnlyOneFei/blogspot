@@ -28,7 +28,7 @@ CREATE TABLE sys_blog
   title       varchar(255) COLLATE utf8mb4_bin NOT NULL COMMENT '标题',
   description varchar(255) COLLATE utf8mb4_bin          DEFAULT NULL COMMENT '描述',
   content     longtext COLLATE utf8mb4_bin COMMENT '内容',
-  remark      varchar(255) COLLATE utf8mb4_bin          DEFAULT NULL COMMENT '备注',
+  remark      varchar(255) COLLATE utf8mb4_bin          DEFAULT '' COMMENT '备注',
   use_flag    int(2)                           NOT NULL DEFAULT '1' COMMENT '1有效 0无效',
   insert_time timestamp                        NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
   update_time timestamp                        NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
